@@ -56,15 +56,17 @@ telegram-ai-bot version
 from telegram_ai_bot.bot import Bot
 from telegram_ai_bot.transport import InMemoryTransport
 
-def my_llm(prompt: str) -> str:          # plug in any (prompt) -> reply model
+
+def my_llm(prompt: str) -> str:  # plug in any (prompt) -> reply model
     return f"echo: {prompt.splitlines()[-1]}"
+
 
 bot = Bot(transport=InMemoryTransport(), llm=my_llm)
 
-bot.handle_raw({"message": {"chat": {"id": 1}, "text": "/start"}})   # direct reply
+bot.handle_raw({"message": {"chat": {"id": 1}, "text": "/start"}})  # direct reply
 sent = bot.handle_raw({"message": {"chat": {"id": 1}, "text": "hi"}})  # routed to my_llm
-print(sent.text)                          # -> "echo: hi"
-print(bot.history(1))                     # -> ["hi"]
+print(sent.text)  # -> "echo: hi"
+print(bot.history(1))  # -> ["hi"]
 ```
 
 ## Architecture
